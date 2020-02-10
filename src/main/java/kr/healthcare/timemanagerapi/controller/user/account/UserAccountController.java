@@ -25,11 +25,10 @@ public class UserAccountController {
     public ResponseEntity studentNumberDuplicateCheck(@Valid UserAccountVO userAccountVO,
                                                       BindingResult bindingResult){
 
-        Map result = new HashMap<>();
+        Map<String,Boolean> result = new HashMap<>();
 
         if(bindingResult.hasErrors()){
             result.put("RESULT",Boolean.FALSE);
-            result.put("error",bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
         }
 
@@ -47,11 +46,10 @@ public class UserAccountController {
     public ResponseEntity studentIdDuplicateCheck(@Valid UserAccountVO userAccountVO,
                                                         BindingResult bindingResult){
 
-        Map result = new HashMap<>();
+        Map<String,Boolean> result = new HashMap<>();
 
         if(bindingResult.hasErrors()){
-            result.put("RESULT",Boolean.TRUE);
-            result.put("error",bindingResult.getAllErrors().get(0).getDefaultMessage());
+            result.put("RESULT",Boolean.FALSE);
             return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
         }
 
@@ -70,17 +68,15 @@ public class UserAccountController {
     public ResponseEntity studentRegister(@Valid @RequestBody UserAccountVO userAccountVO,
                                           BindingResult bindingResult){
 
-        Map result = new HashMap<>();
+        Map<String,Boolean> result = new HashMap<>();
 
         if(bindingResult.hasErrors()){
             result.put("RESULT",Boolean.FALSE);
-            result.put("error",bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
         }
 
         if((userAccountService.findByStudentNumberDuplicateCheck(userAccountVO.getStudentNumber()) != 0) && (userAccountService.findByMemberIdDuplicateCheck(userAccountVO.getMemberId()) != 0)){
             result.put("RESULT",Boolean.FALSE);
-            result.put("error","일치하는 학번 또는 아이디가 존재합니다.");
             return new ResponseEntity<>(result,HttpStatus.OK);
         }
 
@@ -92,5 +88,4 @@ public class UserAccountController {
             return new ResponseEntity<>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
