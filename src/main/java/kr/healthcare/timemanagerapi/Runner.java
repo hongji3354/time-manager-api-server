@@ -1,5 +1,6 @@
 package kr.healthcare.timemanagerapi;
 
+import kr.healthcare.timemanagerapi.jwt.JWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

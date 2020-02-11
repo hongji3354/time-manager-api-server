@@ -1,4 +1,4 @@
-package kr.healthcare.timemanagerapi.domain.user.account;
+package kr.healthcare.timemanagerapi.account.vo;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

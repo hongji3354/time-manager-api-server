@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "kr.healthcare.timemanagerapi.mapper")
+@MapperScan(basePackages = "kr.healthcare.timemanagerapi")
 public class TimeManagerApiApplication {
 
     public static void main(String[] args) {
