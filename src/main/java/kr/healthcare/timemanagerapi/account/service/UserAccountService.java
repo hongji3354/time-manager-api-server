@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -41,7 +42,7 @@ public class UserAccountService {
         insertVO.setMemberPw(encryptPassword);
         insertVO.setSalt(salt);
 
-        if(userAccountMapper.persistByStudentAccount(insertVO) != 0){
+        if(userAccountMapper.persistByAccount(insertVO) != 0){
             return true;
         }else{
             return false;
@@ -52,7 +53,17 @@ public class UserAccountService {
         Map<String,String> account = userAccountMapper.findByAccount(searchVO.getMemberId());
 
         if((SHA256.getEncrypt(searchVO.getMemberPw(),account.get("SALT")).equals(account.get("MEMBER_PW")))){
-            return JWT.getToken(searchVO);
+            String token = JWT.getToken(searchVO);
+            Map<String,String> accountUpdateData = new HashMap<>();
+
+            accountUpdateData.put("token",token);
+            accountUpdateData.put("memberId",searchVO.getMemberId());
+
+            if(userAccountMapper.updateByAccountToken(accountUpdateData) == 1){
+                return token;
+            }else{
+                return "";
+            }
         }else{
             return "";
         }

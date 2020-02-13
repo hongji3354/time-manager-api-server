@@ -11,6 +11,7 @@ public interface UserAccountMapper {
     int findByStudentNumber(String studentNumber);
     int findByStudentId(String memberId);
     Map<String,String> findByAccount(String memberId);
-    int persistByStudentAccount(UserAccountVO insertVO);
+    int persistByAccount(UserAccountVO insertVO);
+    int updateByAccountToken(Map<String,String> accountUpdateData);
 
 }

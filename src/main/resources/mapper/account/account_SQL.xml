@@ -22,10 +22,16 @@
         WHERE MEMBER_ID = #{value}
     </select>
 
-    <insert id="persistByStudentAccount" parameterType="kr.healthcare.timemanagerapi.account.vo.UserAccountVO">
+    <insert id="persistByAccount" parameterType="kr.healthcare.timemanagerapi.account.vo.UserAccountVO">
         INSERT INTO tbl_application(STUDENT_NUMBER,MEMBER_ID,MEMBER_PW,MEMBER_GENDER,MEMBER_NAME, SALT)
         VALUES(#{studentNumber},#{memberId},#{memberPw},#{memberGender},#{memberName},#{salt})
     </insert>
+    
+    <update id="updateByAccountToken" parameterType="hashmap">
+        UPDATE tbl_application
+        SET token = #{token}
+        WHERE member_id = #{memberId}
+    </update>
 
 
 </mapper>
