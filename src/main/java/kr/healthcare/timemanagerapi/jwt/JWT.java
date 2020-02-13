@@ -3,6 +3,7 @@ package kr.healthcare.timemanagerapi.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import kr.healthcare.timemanagerapi.account.vo.UserAccountVO;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -10,7 +11,8 @@ import java.security.Key;
 
 public class JWT {
 
-    private static String secretKey = "healthcare";
+    @Value("${jwt.secretKey}")
+    private static String secretKey;
 
     private static byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
 
