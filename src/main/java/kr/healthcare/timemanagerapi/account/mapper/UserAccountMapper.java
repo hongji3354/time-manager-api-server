@@ -13,5 +13,6 @@ public interface UserAccountMapper {
     Map<String,String> findByAccount(String memberId);
     int persistByAccount(UserAccountVO insertVO);
     int updateByAccountToken(Map<String,String> accountUpdateData);
+    int findByToken(String token);
 
 }

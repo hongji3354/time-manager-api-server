@@ -68,4 +68,15 @@ public class UserAccountService {
             return "";
         }
     }
+
+    public boolean tokenCheck(String token){
+
+        int result = userAccountMapper.findByToken(token);
+
+        if(result == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

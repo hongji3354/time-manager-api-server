@@ -33,5 +33,11 @@
         WHERE member_id = #{memberId}
     </update>
 
+    <select id="findByToken" parameterType="string" resultType="int">
+        SELECT COUNT(token)
+        FROM tbl_application
+        WHERE token = #{value}
+    </select>
+
 
 </mapper>
