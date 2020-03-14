@@ -1,4 +1,4 @@
-package kr.healthcare.timemanagerapi.config.swagger;
+package kr.healthcare.timemanagerapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
