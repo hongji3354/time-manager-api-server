@@ -1,5 +1,6 @@
 package kr.healthcare.timemanagerapi.domain.member;
 
+import kr.healthcare.timemanagerapi.domain.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "tbl_member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @Column(length = 8, nullable = false)
@@ -26,6 +27,9 @@ public class Member {
     @Column(length = 1, nullable = false)
     private String memberGender;
 
+    @Column(length = 1, nullable = false)
+    private String auth;
+
     private String token;
 
     @Builder
@@ -33,13 +37,13 @@ public class Member {
                   String memberId,
                   String memberPassword,
                   String memberName,
-                  String memberGender){
+                  String memberGender,
+                  String auth){
         this.admissionNumber=admissionNumber;
         this.memberId=memberId;
         this.memberPassword=memberPassword;
         this.memberName=memberName;
         this.memberGender=memberGender;
+        this.auth=auth;
     }
-
-
 }
