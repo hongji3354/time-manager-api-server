@@ -1,9 +1,6 @@
 package kr.healthcare.timemanagerapi.controller.member;
 
-import kr.healthcare.timemanagerapi.dto.member.AdmissionNumberDTO;
-import kr.healthcare.timemanagerapi.dto.member.MemberIdDTO;
-import kr.healthcare.timemanagerapi.dto.member.MemberOverlabCheckErrorResultDTO;
-import kr.healthcare.timemanagerapi.dto.member.MemberOverlabCheckResultDTO;
+import kr.healthcare.timemanagerapi.dto.member.*;
 import kr.healthcare.timemanagerapi.service.member.MemberSerivce;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,60 +18,55 @@ public class MemberController {
     @NonNull
     MemberSerivce memberSerivce;
 
-    @GetMapping("/hello")
-    public String helloMember(){
-        return "helloMember";
-    }
-
     @GetMapping("/api/members/admission-number")
-    public ResponseEntity admissionNumberOverlabCheck(@RequestBody @Valid AdmissionNumberDTO admissionNumberDTO,
+    public ResponseEntity admissionNumberOverlabCheck(@RequestBody @Valid AdmissionNumberRequestDTO admissionNumberRequestDTO,
                                                       BindingResult bindingResult){
 
-        MemberOverlabCheckResultDTO memberOverlabCheckResultDTO = new MemberOverlabCheckResultDTO();
+        MemberResponseDTO memberResponseDTO = new MemberResponseDTO();
 
         if(bindingResult.hasErrors()){
-            MemberOverlabCheckErrorResultDTO memberOverlabCheckErrorResultDTO = new MemberOverlabCheckErrorResultDTO();
-            memberOverlabCheckErrorResultDTO.setResultInfo("ERROR");
-            memberOverlabCheckErrorResultDTO.setResultCode("E000001");
-            return ResponseEntity.ok(memberOverlabCheckErrorResultDTO);
+            MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+            memberErrorResponseDTO.setResultInfo("ERROR");
+            memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.ok(memberErrorResponseDTO);
         }
 
-        boolean admissionNumberOverlabWhether = memberSerivce.admissionNumberOverlabCheckFromMember(admissionNumberDTO.getAdmissionNumber());
+        boolean admissionNumberOverlabWhether = memberSerivce.admissionNumberOverlabCheckFromMember(admissionNumberRequestDTO.getAdmissionNumber());
 
         if(!admissionNumberOverlabWhether){
-            memberOverlabCheckResultDTO.setResultInfo("SUCCESS");
-            memberOverlabCheckResultDTO.setSearchCount(0);
-            return ResponseEntity.ok(memberOverlabCheckResultDTO);
+            memberResponseDTO.setResultInfo("SUCCESS");
+            memberResponseDTO.setSearchCount(0);
+            return ResponseEntity.ok(memberResponseDTO);
         }else{
-            memberOverlabCheckResultDTO.setResultInfo("SUCCESS");
-            memberOverlabCheckResultDTO.setSearchCount(1);
-            return ResponseEntity.ok(memberOverlabCheckResultDTO);
+            memberResponseDTO.setResultInfo("SUCCESS");
+            memberResponseDTO.setSearchCount(1);
+            return ResponseEntity.ok(memberResponseDTO);
         }
     }
 
     @GetMapping("/api/members/member-id")
-    public ResponseEntity memberIdOverlabCheck(@RequestBody @Valid MemberIdDTO memberIdDTO,
+    public ResponseEntity memberIdOverlabCheck(@RequestBody @Valid MemberIdRequestDTO memberIdRequestDTO,
                                                BindingResult bindingResult){
 
-        MemberOverlabCheckResultDTO memberOverlabCheckResultDTO = new MemberOverlabCheckResultDTO();
+        MemberResponseDTO memberResponseDTO = new MemberResponseDTO();
 
         if(bindingResult.hasErrors()){
-            MemberOverlabCheckErrorResultDTO memberOverlabCheckErrorResultDTO = new MemberOverlabCheckErrorResultDTO();
-            memberOverlabCheckErrorResultDTO.setResultInfo("ERROR");
-            memberOverlabCheckErrorResultDTO.setResultCode("E000002");
-            return ResponseEntity.ok(memberOverlabCheckErrorResultDTO);
+            MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+            memberErrorResponseDTO.setResultInfo("ERROR");
+            memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.ok(memberErrorResponseDTO);
         }
 
-        boolean memberIdOverlabWhether = memberSerivce.memberIdOverlabCheckFromMember(memberIdDTO.getMemberId());
+        boolean memberIdOverlabWhether = memberSerivce.memberIdOverlabCheckFromMember(memberIdRequestDTO.getMemberId());
 
         if(!memberIdOverlabWhether){
-            memberOverlabCheckResultDTO.setResultInfo("SUCCESS");
-            memberOverlabCheckResultDTO.setSearchCount(0);
-            return ResponseEntity.ok(memberOverlabCheckResultDTO);
+            memberResponseDTO.setResultInfo("SUCCESS");
+            memberResponseDTO.setSearchCount(0);
+            return ResponseEntity.ok(memberResponseDTO);
         }else{
-            memberOverlabCheckResultDTO.setResultInfo("SUCCESS");
-            memberOverlabCheckResultDTO.setSearchCount(1);
-            return ResponseEntity.ok(memberOverlabCheckResultDTO);
+            memberResponseDTO.setResultInfo("SUCCESS");
+            memberResponseDTO.setSearchCount(1);
+            return ResponseEntity.ok(memberResponseDTO);
         }
 
     }
