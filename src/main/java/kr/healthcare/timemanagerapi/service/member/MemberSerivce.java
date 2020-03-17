@@ -22,5 +22,15 @@ public class MemberSerivce {
         }
     }
 
+    public boolean memberIdOverlabCheckFromMember(String memberId){
+        int memberIdCount = memberRepository.countByMemberId(memberId);
+
+        if(memberIdCount == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 
 }
