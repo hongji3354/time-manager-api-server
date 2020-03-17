@@ -12,9 +12,9 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class AdmissionNumberDTO {
+public class AdmissionNumberRequestDTO {
 
-    @Length(min = 8, max = 8)
-    @NotEmpty
+    @NotEmpty(message = "입학번호(학번)을 입력해주세요.")
+    @Length(min = 8, max = 8, message = "입학번호(학번)은 8자리 입니다.")
     private String admissionNumber;
 }

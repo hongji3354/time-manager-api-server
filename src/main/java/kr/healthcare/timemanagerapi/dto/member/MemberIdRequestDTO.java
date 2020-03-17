@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @ToString
-public class MemberIdDTO {
+public class MemberIdRequestDTO {
 
     @Length(min = 3, max = 20)
     @NotEmpty

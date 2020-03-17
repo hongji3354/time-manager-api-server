@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberOverlabCheckErrorResultDTO {
+public class MemberErrorResponseDTO {
 
     private String resultInfo;
-    private String resultCode;
+    private String resultMessage;
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberOverlabCheckResultDTO {
+public class MemberResponseDTO {
 
     private String resultInfo;
     private int searchCount;
