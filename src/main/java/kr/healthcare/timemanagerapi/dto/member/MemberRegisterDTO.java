@@ -27,8 +27,8 @@ public class MemberRegisterDTO {
     @Length(min = 3, max = 20, message = "아이디는 최소 2자리 최대 20자리 입니다.")
     private String memberId;
     @NotEmpty(message = "비밀번호를 입력해주세요.")
-    //영문(대소문자 구분), 숫자, 특수문자 조합, 8~20자리
-    @Pattern(regexp = "^(?=.*\\\\d)(?=.*[~`!@#$%\\\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,20}$", message = "비밀번호는 영문(대소문자 구분), 숫자, 특수문자를 조합해야 하며 최소 8 자리 최대 20자리 입니다.")
+    //최소 8자리에 숫자, 문자, 특수문자 각각 1개 이상 포함
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$", message = "비밀번호는 영문, 숫자, 특수문자를 조합해야 하며 최소 8 자리 이상입니다.")
     private String memberPassword;
 
 }
