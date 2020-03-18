@@ -9,6 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -71,6 +74,26 @@ public class MemberController {
 
     }
 
+    @PostMapping("/api/members")
+    public ResponseEntity memberRegister(@RequestBody @Valid MemberRegisterDTO memberRegisterDTO,
+                                         BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+            memberErrorResponseDTO.setResultInfo("ERROR");
+            memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.ok(memberErrorResponseDTO);
+        }
 
 
+        Map<String,String> result = new HashMap<>();
+
+        memberSerivce.memberRegister(memberRegisterDTO);
+
+        result.put("RESULT_INFO","SUCCESS");
+
+        return ResponseEntity.ok(result);
+
+
+    }
 }
