@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/members
+Content-Type: application/json
+
+{
+  "admissionNumber" : "20100444",
+  "name" : "홍지훈",
+  "memberGender" : "M",
+  "memberId" : "wlgnsdldp",
+  "memberPassword" : "wlgnsdldp3355!"
+}
+
+###

@@ -1,0 +1,6 @@
+GET http://localhost:8080/api/members/admission-number
+Content-Type: application/json
+
+{
+  "admissionNumber" : "20100444"
+}
