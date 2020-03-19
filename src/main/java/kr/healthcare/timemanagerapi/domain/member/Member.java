@@ -38,12 +38,14 @@ public class Member extends BaseTimeEntity {
                   String memberPassword,
                   String memberName,
                   String memberGender,
-                  String auth){
+                  String auth,
+                  String token){
         this.admissionNumber=admissionNumber;
         this.memberId=memberId;
         this.memberPassword=memberPassword;
         this.memberName=memberName;
         this.memberGender=memberGender;
         this.auth=auth;
+        this.token=token;
     }
 }
