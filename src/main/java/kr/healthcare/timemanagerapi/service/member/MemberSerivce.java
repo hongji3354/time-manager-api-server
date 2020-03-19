@@ -38,18 +38,29 @@ public class MemberSerivce {
         }
     }
 
-    public void memberRegister(MemberRegisterDTO memberRegisterDTO){
+    public boolean memberRegister(MemberRegisterDTO memberRegisterDTO){
 
-        memberRegisterDTO.setMemberPassword(passwordEncoder.encode(memberRegisterDTO.getMemberPassword()));
+        boolean admissionNumberOverlab = this.admissionNumberOverlabCheckFromMember(memberRegisterDTO.getAdmissionNumber());
+        boolean memberIdOverlab = this.memberIdOverlabCheckFromMember(memberRegisterDTO.getMemberId());
 
-        Member member = memberRepository.save(Member.builder()
-                                                    .admissionNumber(memberRegisterDTO.getAdmissionNumber())
-                                                    .memberName(memberRegisterDTO.getAdmissionNumber())
-                                                    .memberGender(memberRegisterDTO.getMemberGender())
-                                                    .memberId(memberRegisterDTO.getMemberId())
-                                                    .memberPassword(memberRegisterDTO.getMemberPassword())
-                                                    .auth("USER")
-                                                    .build());
+        if(!(admissionNumberOverlab && memberIdOverlab)){
+            return false;
+        }else{
+            memberRegisterDTO.setMemberPassword(passwordEncoder.encode(memberRegisterDTO.getMemberPassword()));
+
+            Member member = memberRepository.save(Member.builder()
+                    .admissionNumber(memberRegisterDTO.getAdmissionNumber())
+                    .memberName(memberRegisterDTO.getAdmissionNumber())
+                    .memberGender(memberRegisterDTO.getMemberGender())
+                    .memberId(memberRegisterDTO.getMemberId())
+                    .memberPassword(memberRegisterDTO.getMemberPassword())
+                    .auth("USER")
+                    .build());
+
+            return true;
+        }
+
+
     }
 
 
