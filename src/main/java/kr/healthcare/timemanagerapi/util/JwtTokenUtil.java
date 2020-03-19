@@ -13,6 +13,7 @@ public class JwtTokenUtil {
     //JWT 생성
     public String deGenerateToken(Map<String, Object> claim){
         return Jwts.builder()
+                    .setHeaderParam("typ","jwt")
                     .setClaims(claim)
                     .setIssuer("unist_healthcare")
                     .setIssuedAt(new Date(System.currentTimeMillis()))
