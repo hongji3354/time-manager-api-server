@@ -2,11 +2,16 @@ package kr.healthcare.timemanagerapi.service.member;
 
 import kr.healthcare.timemanagerapi.domain.member.Member;
 import kr.healthcare.timemanagerapi.domain.member.MemberRepository;
+import kr.healthcare.timemanagerapi.dto.member.MemberLoginDTO;
 import kr.healthcare.timemanagerapi.dto.member.MemberRegisterDTO;
+import kr.healthcare.timemanagerapi.util.JwtTokenUtil;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +48,7 @@ public class MemberSerivce {
         boolean admissionNumberOverlab = this.admissionNumberOverlabCheckFromMember(memberRegisterDTO.getAdmissionNumber());
         boolean memberIdOverlab = this.memberIdOverlabCheckFromMember(memberRegisterDTO.getMemberId());
 
-        if(!(admissionNumberOverlab && memberIdOverlab)){
+        if(admissionNumberOverlab && memberIdOverlab){
             return false;
         }else{
             memberRegisterDTO.setMemberPassword(passwordEncoder.encode(memberRegisterDTO.getMemberPassword()));
