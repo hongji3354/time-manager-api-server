@@ -17,6 +17,7 @@
         appender은 콘솔, 파일, DB 등 로그를 출력하는 방법을 지정
         아래 appender은 file에 출력되는 내용을 지정
     -->
+    <!--
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS_ABSOLUTE_PATH}/logback.log</file>
         <encoder>
@@ -30,6 +31,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
+    -->
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
