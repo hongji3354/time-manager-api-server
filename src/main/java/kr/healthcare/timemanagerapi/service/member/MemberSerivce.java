@@ -64,8 +64,41 @@ public class MemberSerivce {
 
             return true;
         }
+    }
 
+    public String memberLogin(MemberLoginDTO memberLoginDTO){
 
+        int memberCount = memberRepository.countByMemberId(memberLoginDTO.getMemberId());
+
+        if(memberCount == 0){
+            return "";
+        }else{
+            Member member = memberRepository.findByMemberId(memberLoginDTO.getMemberId());
+
+            boolean passwordCheck = passwordEncoder.matches(memberLoginDTO.getMemberPassword(),member.getMemberPassword());
+
+            if(passwordCheck){
+                JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+                Map<String, Object> claim = new HashMap<>();
+                claim.put("admissionNumber",member.getAdmissionNumber());
+
+                String token = jwtTokenUtil.deGenerateToken(claim);
+
+                memberRepository.save(Member.builder()
+                        .admissionNumber(member.getAdmissionNumber())
+                        .memberName(member.getAdmissionNumber())
+                        .memberGender(member.getMemberGender())
+                        .memberId(member.getMemberId())
+                        .memberPassword(member.getMemberPassword())
+                        .auth("USER")
+                        .token(token)
+                        .build());
+
+                return token;
+            }else{
+                return "";
+            }
+        }
     }
 
 

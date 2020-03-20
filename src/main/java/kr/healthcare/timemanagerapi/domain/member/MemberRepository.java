@@ -6,4 +6,5 @@ public interface MemberRepository extends JpaRepository<Member,String> {
 
     int countByAdmissionNumber(String admissionNumber);
     int countByMemberId(String memberId);
+    Member findByMemberId(String memberId);
 }

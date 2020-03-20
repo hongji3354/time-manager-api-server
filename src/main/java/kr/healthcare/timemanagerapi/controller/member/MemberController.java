@@ -109,15 +109,18 @@ public class MemberController {
             return ResponseEntity.ok(memberErrorResponseDTO);
         }
 
+        String token = memberSerivce.memberLogin(memberLoginDTO);
 
-        Map<String,String> result = new HashMap<>();
-
-        memberSerivce.memberRegister(memberRegisterDTO);
-
-        result.put("RESULT_INFO","SUCCESS");
-
-        return ResponseEntity.ok(result);
-
+        if("".equals(token)){
+            memberErrorResponseDTO.setResultInfo("ERROR");
+            memberErrorResponseDTO.setResultMessage("아이디 또는 비밀번호를 확인해 주세요.");
+            return ResponseEntity.ok(memberErrorResponseDTO);
+        }else{
+            Map<String, String> result = new HashMap<>();
+            result.put("resultInfo","SUCCESS");
+            result.put("token",token);
+            return ResponseEntity.ok(result);
+        }
 
     }
 }
