@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.rmi.registry.Registry;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,8 +77,33 @@ public class MemberController {
     public ResponseEntity memberRegister(@RequestBody @Valid MemberRegisterDTO memberRegisterDTO,
                                          BindingResult bindingResult){
 
+        MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+
         if(bindingResult.hasErrors()){
-            MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+            memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.ok(memberErrorResponseDTO);
+        }
+
+        boolean success = memberSerivce.memberRegister(memberRegisterDTO);
+
+        if(!success){
+            memberErrorResponseDTO.setResultInfo("ERROR");
+            memberErrorResponseDTO.setResultMessage("동일한 학번 또는 아이디가 존재합니다.");
+            return ResponseEntity.ok(memberErrorResponseDTO);
+        }else{
+            Map<String, String> result = new HashMap<>();
+            result.put("resultInfo","SUCCESS");
+            return ResponseEntity.ok(result);
+        }
+    }
+
+    @PostMapping("/api/members/login")
+    public ResponseEntity login(@RequestBody @Valid MemberLoginDTO memberLoginDTO,
+                                BindingResult bindingResult){
+
+        MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
+
+        if(bindingResult.hasErrors()){
             memberErrorResponseDTO.setResultInfo("ERROR");
             memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return ResponseEntity.ok(memberErrorResponseDTO);
