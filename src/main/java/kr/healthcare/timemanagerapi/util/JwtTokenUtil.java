@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class JwtTokenUtil {
 
-    private String secretKey = "healthcare";
+    private static final String secretKey = "healthcare";
 
     //JWT 생성
-    public String deGenerateToken(Map<String, Object> claim){
+    public static String deGenerateToken(Map<String, Object> claim){
         return Jwts.builder()
                     .setHeaderParam("typ","jwt")
                     .setClaims(claim)
@@ -22,7 +22,7 @@ public class JwtTokenUtil {
     }
 
     //JWT에서 Claim 파싱
-    public Claims getAllClaimsFromToken(String token){
+    public static Claims getAllClaimsFromToken(String token){
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
