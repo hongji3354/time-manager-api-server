@@ -80,6 +80,7 @@ public class MemberController {
         MemberErrorResponseDTO memberErrorResponseDTO = new MemberErrorResponseDTO();
 
         if(bindingResult.hasErrors()){
+            memberErrorResponseDTO.setResultInfo("ERROR");
             memberErrorResponseDTO.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return ResponseEntity.ok(memberErrorResponseDTO);
         }
