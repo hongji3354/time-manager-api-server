@@ -78,11 +78,10 @@ public class MemberSerivce {
             boolean passwordCheck = passwordEncoder.matches(memberLoginDTO.getMemberPassword(),member.getMemberPassword());
 
             if(passwordCheck){
-                JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
                 Map<String, Object> claim = new HashMap<>();
                 claim.put("admissionNumber",member.getAdmissionNumber());
 
-                String token = jwtTokenUtil.deGenerateToken(claim);
+                String token = JwtTokenUtil.deGenerateToken(claim);
 
                 memberRepository.save(Member.builder()
                         .admissionNumber(member.getAdmissionNumber())
