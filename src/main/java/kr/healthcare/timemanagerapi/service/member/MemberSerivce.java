@@ -80,6 +80,7 @@ public class MemberSerivce {
             if(passwordCheck){
                 Map<String, Object> claim = new HashMap<>();
                 claim.put("admissionNumber",member.getAdmissionNumber());
+                claim.put("authorization","USER");
 
                 String token = JwtTokenUtil.deGenerateToken(claim);
 
