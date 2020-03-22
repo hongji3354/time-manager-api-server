@@ -7,6 +7,7 @@ import kr.healthcare.timemanagerapi.service.member.MemberSerivce;
 import kr.healthcare.timemanagerapi.util.JwtTokenUtil;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,11 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Component
 public class UserTokenValidationInterceptor extends HandlerInterceptorAdapter {
 
-    @NonNull
+    @Autowired
     MemberSerivce memberSerivce;
 
     @Override
