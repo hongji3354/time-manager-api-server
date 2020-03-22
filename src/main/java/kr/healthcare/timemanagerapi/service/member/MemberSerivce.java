@@ -101,5 +101,8 @@ public class MemberSerivce {
         }
     }
 
-
+    public Member getMemberFromToken(String token){
+        Member member = memberRepository.findByToken(token);
+        return member;
+    }
 }
