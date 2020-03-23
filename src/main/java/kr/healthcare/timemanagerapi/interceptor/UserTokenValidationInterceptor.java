@@ -5,8 +5,6 @@ import kr.healthcare.timemanagerapi.exception.TokenAuthorizationException;
 import kr.healthcare.timemanagerapi.exception.TokenEmptyException;
 import kr.healthcare.timemanagerapi.service.member.MemberSerivce;
 import kr.healthcare.timemanagerapi.util.JwtTokenUtil;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
