@@ -15,4 +15,8 @@ public class MemberService {
     public boolean memberSignPossibleWhether(int studentNumber){
         return (memberRepositroy.countAllByStdNum(studentNumber) == 0) ? true : false;
     }
+
+    public boolean memberEmailOverlabCheck(String email){
+        return (memberRepositroy.countAllByEmail(email) != 0) ? true : false;
+    }
 }

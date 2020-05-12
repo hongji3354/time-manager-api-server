@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -24,6 +25,23 @@ public class MemberDTO {
     @Setter
     @ToString
     public static class StudentNumberResponse{
+        private String resultCode;
+        private String resultMessage;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class StudentEmailRequest{
+        @NotEmpty(message = "이메일은 필수값 입니다.")
+        @Email(message = "올바른 이메일 형식이 아닙니다.")
+        private String studentEmail;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class StudentEmailResponse{
         private String resultCode;
         private String resultMessage;
     }

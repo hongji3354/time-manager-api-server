@@ -40,4 +40,26 @@ public class MemberController {
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/api/accounts/student-email")
+    public ResponseEntity studentEmaliOverlapCheck(@Valid MemberDTO.StudentEmailRequest studentEmailRequest,
+                                                   BindingResult bindingResult){
+
+        MemberDTO.StudentEmailResponse response = new MemberDTO.StudentEmailResponse();
+
+        if(bindingResult.hasErrors()){
+            response.setResultCode("FAIL");
+            response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
+        }
+
+        if(!memberService.memberEmailOverlabCheck(studentEmailRequest.getStudentEmail())){
+            response.setResultCode("SUCCESS");
+            return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
+        }else{
+            response.setResultCode("SUCCESS");
+            response.setResultMessage(ResponseFailMessage.H000002.getMessage());
+            return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
+        }
+    }
 }
