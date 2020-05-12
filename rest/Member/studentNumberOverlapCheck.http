@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/accounts/student-number?studentNumber=20100444
+Content-Type: application/json
+
