@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/accounts
+Content-Type: application/json
+
+{
+  "studentNumber" : 20100444,
+  "name" : "홍지훈",
+  "email" : "hongji3354@gmail.com",
+  "password" : "password1!",
+  "nickName" : "development"
+}
+

@@ -1,5 +1,6 @@
 package kr.healthcare.timemanagerapi.service.member;
 
+import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
 import kr.healthcare.timemanagerapi.domain.member.MemberRepositroy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +19,9 @@ public class MemberService {
 
     public boolean memberEmailOverlabCheck(String email){
         return (memberRepositroy.countAllByEmail(email) != 0) ? true : false;
+    }
+
+    public void memberSignUp(MemberEntity memberEntity){
+        memberRepositroy.save(memberEntity);
     }
 }

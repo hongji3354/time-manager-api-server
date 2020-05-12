@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum  ResponseFailMessage {
 
     H000001("이미 가입된 학번입니다."),
-    H000002("이미 사용된 이메일 입니다.");
+    H000002("이미 사용된 이메일 입니다."),
+    H000003("이미 가입된 학번이거나 이미 사용되고 있는 이메일 입니다.");
 
     private String message;
 
