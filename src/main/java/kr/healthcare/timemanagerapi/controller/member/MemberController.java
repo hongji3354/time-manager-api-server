@@ -1,5 +1,6 @@
 package kr.healthcare.timemanagerapi.controller.member;
 
+import kr.healthcare.timemanagerapi.constant.Authority;
 import kr.healthcare.timemanagerapi.constant.ResponseFailMessage;
 import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
 import kr.healthcare.timemanagerapi.dto.member.MemberDTO;
@@ -91,6 +92,7 @@ public class MemberController {
                         .email(studentSingUpRequest.getEmail())
                         .password(passwordEncoder.encode(studentSingUpRequest.getPassword()))
                         .nickname(studentSingUpRequest.getNickName())
+                        .auth(Authority.U.toString())
                         .build();
 
                 memberService.memberSignUp(memberEntity);
@@ -125,6 +127,42 @@ public class MemberController {
                 response.setResultCode(ResponseFailMessage.SUCCESS.toString());
                 response.setToken(token);
                 return new ResponseEntity<MemberDTO.StudentLoginResponse>(response, HttpStatus.OK);
+            }
+        }
+    }
+
+    @PostMapping("/api/accounts/admin")
+    public ResponseEntity adminSignUp(@Valid @RequestBody MemberDTO.StudentSingUpRequest studentSingUpRequest,
+                                        BindingResult bindingResult){
+
+        MemberDTO.StudentSignUpResponse response = new MemberDTO.StudentSignUpResponse();
+
+        if(bindingResult.hasErrors()){
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
+            response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
+        }else{
+            boolean memberSingPossibleWhether = memberService.memberSignPossibleWhether(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
+            boolean memberEmailOverlabCheck = memberService.memberEmailOverlabCheck(studentSingUpRequest.getEmail());
+
+            if(memberSingPossibleWhether && !memberEmailOverlabCheck){
+                MemberEntity memberEntity = MemberEntity.builder()
+                        .stdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()))
+                        .name(studentSingUpRequest.getName())
+                        .email(studentSingUpRequest.getEmail())
+                        .password(passwordEncoder.encode(studentSingUpRequest.getPassword()))
+                        .nickname(studentSingUpRequest.getNickName())
+                        .auth(Authority.A.toString())
+                        .build();
+
+                memberService.memberSignUp(memberEntity);
+
+                response.setResultCode(ResponseFailMessage.SUCCESS.toString());
+                return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
+            }else{
+                response.setResultCode(ResponseFailMessage.FAIL.toString());
+                response.setResultMessage(ResponseFailMessage.H000003.getMessage());
+                return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
             }
         }
     }

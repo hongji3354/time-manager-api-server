@@ -67,7 +67,8 @@ public class MemberEntity extends BaseTimeEntity {
                         String imagePath,
                         String imageKey,
                         String imageFilename,
-                        String token){
+                        String token,
+                        String auth){
         this.stdNum=stdNum;
         this.email=email;
         this.password=password;
@@ -77,6 +78,7 @@ public class MemberEntity extends BaseTimeEntity {
         this.imageKey=imageKey;
         this.imageFilename=imageFilename;
         this.token=token;
+        this.auth=auth;
     }
 
 }

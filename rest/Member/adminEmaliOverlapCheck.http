@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/accounts/student-email?studentEmail=wlgnsdldp@naver.com
+Content-Type: application/json
+
