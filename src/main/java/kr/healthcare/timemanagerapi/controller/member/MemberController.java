@@ -2,7 +2,6 @@ package kr.healthcare.timemanagerapi.controller.member;
 
 import kr.healthcare.timemanagerapi.constant.ResponseFailMessage;
 import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
-import kr.healthcare.timemanagerapi.domain.member.MemberRepositroy;
 import kr.healthcare.timemanagerapi.dto.member.MemberDTO;
 import kr.healthcare.timemanagerapi.service.member.MemberService;
 import lombok.NonNull;
@@ -34,16 +33,16 @@ public class MemberController {
         MemberDTO.StudentNumberResponse response = new MemberDTO.StudentNumberResponse();
 
         if(bindingResult.hasErrors()){
-            response.setResultCode("FAIL");
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
 
         if(memberService.memberSignPossibleWhether(Integer.parseInt(studentNumberRequest.getStudentNumber()))){
-            response.setResultCode("SUCCESS");
+            response.setResultCode(ResponseFailMessage.SUCCESS.toString());
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }else{
-            response.setResultCode("FAIL");
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(ResponseFailMessage.H000001.getMessage());
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
@@ -56,16 +55,16 @@ public class MemberController {
         MemberDTO.StudentEmailResponse response = new MemberDTO.StudentEmailResponse();
 
         if(bindingResult.hasErrors()){
-            response.setResultCode("FAIL");
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }
 
         if(!memberService.memberEmailOverlabCheck(studentEmailRequest.getStudentEmail())){
-            response.setResultCode("SUCCESS");
+            response.setResultCode(ResponseFailMessage.SUCCESS.toString());
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }else{
-            response.setResultCode("SUCCESS");
+            response.setResultCode(ResponseFailMessage.SUCCESS.toString());
             response.setResultMessage(ResponseFailMessage.H000002.getMessage());
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }
@@ -78,7 +77,7 @@ public class MemberController {
         MemberDTO.StudentSignUpResponse response = new MemberDTO.StudentSignUpResponse();
 
         if(bindingResult.hasErrors()){
-            response.setResultCode("ERROR");
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
         }else{
@@ -96,12 +95,36 @@ public class MemberController {
 
                 memberService.memberSignUp(memberEntity);
 
-                response.setResultCode("SUCCESS");
+                response.setResultCode(ResponseFailMessage.SUCCESS.toString());
                 return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
             }else{
-                response.setResultCode("ERROR");
+                response.setResultCode(ResponseFailMessage.FAIL.toString());
                 response.setResultMessage(ResponseFailMessage.H000003.getMessage());
                 return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
+            }
+        }
+    }
+
+    @PostMapping("/api/login")
+    public ResponseEntity studentLogin(@Valid @RequestBody MemberDTO.StudentLoginRequest studentLoginRequest,
+                                       BindingResult bindingResult){
+
+        MemberDTO.StudentLoginResponse response = new MemberDTO.StudentLoginResponse();
+
+        if(bindingResult.hasErrors()){
+            response.setResultCode(ResponseFailMessage.FAIL.toString());
+            response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return new ResponseEntity<MemberDTO.StudentLoginResponse>(response, HttpStatus.OK);
+        }else{
+            String token = memberService.memberLogin(studentLoginRequest);
+            if("".equals(token)){
+                response.setResultCode(ResponseFailMessage.FAIL.toString());
+                response.setResultMessage(ResponseFailMessage.H000004.getMessage());
+                return new ResponseEntity<MemberDTO.StudentLoginResponse>(response, HttpStatus.OK);
+            }else{
+                response.setResultCode(ResponseFailMessage.SUCCESS.toString());
+                response.setToken(token);
+                return new ResponseEntity<MemberDTO.StudentLoginResponse>(response, HttpStatus.OK);
             }
         }
     }
