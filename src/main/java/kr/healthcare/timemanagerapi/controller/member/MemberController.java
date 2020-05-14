@@ -3,6 +3,7 @@ package kr.healthcare.timemanagerapi.controller.member;
 import kr.healthcare.timemanagerapi.constant.Authority;
 import kr.healthcare.timemanagerapi.constant.ResponseFailMessage;
 import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
+import kr.healthcare.timemanagerapi.domain.member.MemberRepositroy;
 import kr.healthcare.timemanagerapi.dto.member.MemberDTO;
 import kr.healthcare.timemanagerapi.service.member.MemberService;
 import lombok.NonNull;
@@ -26,6 +27,9 @@ public class MemberController {
     private MemberService memberService;
 
     @NonNull
+    private MemberRepositroy memberRepositroy;
+
+    @NonNull
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/api/accounts/student-number")
@@ -39,12 +43,12 @@ public class MemberController {
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
 
-        if(memberService.memberSignPossibleWhether(Integer.parseInt(studentNumberRequest.getStudentNumber()))){
-            response.setResultCode(ResponseFailMessage.SUCCESS.toString());
-            return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
-        }else{
+        if(memberRepositroy.existsByStdNum(Integer.parseInt(studentNumberRequest.getStudentNumber()))){
             response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(ResponseFailMessage.H000001.getMessage());
+            return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
+        }else{
+            response.setResultCode(ResponseFailMessage.SUCCESS.toString());
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
     }
@@ -61,12 +65,12 @@ public class MemberController {
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }
 
-        if(!memberService.memberEmailOverlabCheck(studentEmailRequest.getStudentEmail())){
+        if(memberRepositroy.existsByEmail(studentEmailRequest.getStudentEmail())){
             response.setResultCode(ResponseFailMessage.SUCCESS.toString());
+            response.setResultMessage(ResponseFailMessage.H000002.getMessage());
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }else{
             response.setResultCode(ResponseFailMessage.SUCCESS.toString());
-            response.setResultMessage(ResponseFailMessage.H000002.getMessage());
             return new ResponseEntity<MemberDTO.StudentEmailResponse>(response, HttpStatus.OK);
         }
     }
@@ -82,10 +86,10 @@ public class MemberController {
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
         }else{
-            boolean memberSingPossibleWhether = memberService.memberSignPossibleWhether(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
-            boolean memberEmailOverlabCheck = memberService.memberEmailOverlabCheck(studentSingUpRequest.getEmail());
+            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
+            boolean memberEmailOverlabCheck = memberRepositroy.existsByEmail(studentSingUpRequest.getEmail());
 
-            if(memberSingPossibleWhether && !memberEmailOverlabCheck){
+            if(!memberSingPossibleWhether && !memberEmailOverlabCheck){
                 MemberEntity memberEntity = MemberEntity.builder()
                         .stdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()))
                         .name(studentSingUpRequest.getName())
@@ -95,7 +99,7 @@ public class MemberController {
                         .auth(Authority.U.toString())
                         .build();
 
-                memberService.memberSignUp(memberEntity);
+                memberRepositroy.save(memberEntity);
 
                 response.setResultCode(ResponseFailMessage.SUCCESS.toString());
                 return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
@@ -142,10 +146,10 @@ public class MemberController {
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
         }else{
-            boolean memberSingPossibleWhether = memberService.memberSignPossibleWhether(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
-            boolean memberEmailOverlabCheck = memberService.memberEmailOverlabCheck(studentSingUpRequest.getEmail());
+            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
+            boolean memberEmailOverlabCheck = memberRepositroy.existsByEmail(studentSingUpRequest.getEmail());
 
-            if(memberSingPossibleWhether && !memberEmailOverlabCheck){
+            if(!memberSingPossibleWhether && !memberEmailOverlabCheck){
                 MemberEntity memberEntity = MemberEntity.builder()
                         .stdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()))
                         .name(studentSingUpRequest.getName())
@@ -155,7 +159,7 @@ public class MemberController {
                         .auth(Authority.A.toString())
                         .build();
 
-                memberService.memberSignUp(memberEntity);
+                memberRepositroy.save(memberEntity);
 
                 response.setResultCode(ResponseFailMessage.SUCCESS.toString());
                 return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
