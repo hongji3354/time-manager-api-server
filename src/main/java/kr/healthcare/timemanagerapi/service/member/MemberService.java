@@ -23,18 +23,6 @@ public class MemberService {
     @NonNull
     private BCryptPasswordEncoder passwordEncoder;
 
-    public boolean memberSignPossibleWhether(int studentNumber){
-        return (memberRepositroy.countAllByStdNum(studentNumber) == 0) ? true : false;
-    }
-
-    public boolean memberEmailOverlabCheck(String email){
-        return (memberRepositroy.countAllByEmail(email) != 0) ? true : false;
-    }
-
-    public void memberSignUp(MemberEntity memberEntity){
-        memberRepositroy.save(memberEntity);
-    }
-
     @Transactional
     public String memberLogin(MemberDTO.StudentLoginRequest studentLoginRequest){
         MemberEntity memberEntity = memberRepositroy.findByEmail(studentLoginRequest.getEmail());
