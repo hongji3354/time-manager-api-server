@@ -10,9 +10,11 @@ import java.security.PublicKey;
 
 public interface MemberRepositroy extends JpaRepository<MemberEntity, Long> {
 
-    public int countAllByStdNum(long studentNumber);
-    public int countAllByEmail(String email);
+    public Boolean existsByStdNum(long studentNumber);
+    public Boolean existsByEmail(String email);
     public MemberEntity findByEmail(String email);
+    public Boolean existsByToken(String token);
+    public MemberEntity findByToken(String token);
 
     @Modifying
     @Query(value = "UPDATE MemberEntity m SET m.token = :token WHERE m.email = :email")
