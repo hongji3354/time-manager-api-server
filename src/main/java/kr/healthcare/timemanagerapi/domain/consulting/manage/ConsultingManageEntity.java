@@ -22,14 +22,17 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     @GeneratedValue
     private long idx;
 
+    @Column(length = 45, unique = true)
+    private String semester;
+
+    @Column(length = 8, unique = true)
+    private long adminNum;
+
     @Column(nullable = false)
     private LocalDate startDate;
 
     @Column(nullable = false)
     private LocalDate endDate;
-
-    @Column(length = 45, nullable = false)
-    private String email;
 
     @Column(length = 1, nullable = false)
     private String forceEndYn;
@@ -40,9 +43,7 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     private String deleteYn;
 
     @ManyToOne
-    /** name은 현재 Entity에서 생성되는 FK 이름이며, referencedColumnName은 FK가 참조하는 컬럼을 뜻한다.
-     * */
-    @JoinColumn(name = "member_email", referencedColumnName = "email")
+    @JoinColumn(name = "admin_number")
     private MemberEntity member;
 
     public void fkSetting(MemberEntity member){
@@ -58,13 +59,15 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     @Builder
     public ConsultingManageEntity(LocalDate startDate,
                                   LocalDate endDate,
-                                  String email,
+                                  String semester,
+                                  long adminNum,
                                   String forceEndYn,
                                   LocalDateTime deleteDate,
                                   String deleteYn){
         this.startDate = startDate;
         this.endDate = endDate;
-        this.email = email;
+        this.semester=semester;
+        this.adminNum=adminNum;
         this.forceEndYn = forceEndYn;
         this.deleteDate = deleteDate;
         this.deleteYn = deleteYn;
