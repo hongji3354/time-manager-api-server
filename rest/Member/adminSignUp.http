@@ -2,7 +2,7 @@ POST http://localhost:8080/api/accounts/admin
 Content-Type: application/json
 
 {
-  "studentNumber" : 20100445,
+  "studentNumber" : "20100445",
   "name" : "홍지훈",
   "email" : "wlgnsdldp@naver.com",
   "password" : "password1!",
