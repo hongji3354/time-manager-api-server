@@ -2,7 +2,6 @@ package kr.healthcare.timemanagerapi.domain.consulting.manage;
 
 import kr.healthcare.timemanagerapi.domain.BaseTimeEntity;
 import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
-import kr.healthcare.timemanagerapi.domain.member.MemberRepositroy;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,14 +18,10 @@ import java.time.LocalDateTime;
 public class ConsultingManageEntity extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
-    private long idx;
+    private String idx;
 
-    @Column(length = 45, unique = true)
-    private String semester;
-
-    @Column(length = 8, unique = true)
-    private long adminNum;
+    @Column(length = 8)
+    private String adminNum;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -46,12 +41,17 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     @JoinColumn(name = "admin_number")
     private MemberEntity member;
 
-    public void fkSetting(MemberEntity member){
-        this.member = member;
-    }
+    @Transient
+    private String semester;
 
     @PrePersist
     public void defaultValueCheck(){
+        this.deleteYn = (this.deleteYn == null) ? this.deleteYn = "N" : this.deleteYn;
+        this.forceEndYn = (this.forceEndYn == null) ? this.forceEndYn = "N" : this.forceEndYn;
+    }
+
+    @PreUpdate
+    public void defaultValueUpdateCheck(){
         this.deleteYn = (this.deleteYn == null) ? this.deleteYn = "N" : this.deleteYn;
         this.forceEndYn = (this.forceEndYn == null) ? this.forceEndYn = "N" : this.forceEndYn;
     }
@@ -60,10 +60,12 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     public ConsultingManageEntity(LocalDate startDate,
                                   LocalDate endDate,
                                   String semester,
-                                  long adminNum,
+                                  String adminNum,
                                   String forceEndYn,
                                   LocalDateTime deleteDate,
-                                  String deleteYn){
+                                  String deleteYn,
+                                  MemberEntity member){
+        this.idx = semester+adminNum;
         this.startDate = startDate;
         this.endDate = endDate;
         this.semester=semester;
@@ -71,5 +73,6 @@ public class ConsultingManageEntity extends BaseTimeEntity {
         this.forceEndYn = forceEndYn;
         this.deleteDate = deleteDate;
         this.deleteYn = deleteYn;
+        this.member = member;
     }
 }
