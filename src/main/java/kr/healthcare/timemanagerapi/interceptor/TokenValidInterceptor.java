@@ -36,13 +36,13 @@ public class TokenValidInterceptor extends HandlerInterceptorAdapter {
         if(memberRepositroy.existsByToken(token)){
             String[] urlSplit = request.getServletPath().split("/");
             MemberEntity memberEntity = memberRepositroy.findByToken(token);
-            if("admin".equals(urlSplit[1])){
+            if("admin".equals(urlSplit[2])){
                 if(Authority.U.toString().equals(memberEntity.getAuth())){
                     throw new UnauthorizedException("접근 권한이 없다.");
                 }else{
                     return true;
                 }
-            }else if("sadmin".equals(urlSplit[1])){
+            }else if("sadmin".equals(urlSplit[2])){
                 if(Authority.U.toString().equals(memberEntity.getAuth()) || Authority.A.toString().equals(memberEntity.getAuth())){
                     throw new UnauthorizedException("접근 권한이 없다.");
                 }else{
@@ -52,6 +52,5 @@ public class TokenValidInterceptor extends HandlerInterceptorAdapter {
         }else{
             throw new MalformedJwtException("Token은 서버에서 발급한게 맞지만 일치하는 Token이 존재하지 않는다!");
         }
-        return false;
     }
 }
