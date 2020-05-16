@@ -49,6 +49,7 @@ public class TokenValidInterceptor extends HandlerInterceptorAdapter {
                     return true;
                 }
             }
+            return true;
         }else{
             throw new MalformedJwtException("Token은 서버에서 발급한게 맞지만 일치하는 Token이 존재하지 않는다!");
         }
