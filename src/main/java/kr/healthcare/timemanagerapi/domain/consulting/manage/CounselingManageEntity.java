@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "COUNSELING_TBL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ConsultingManageEntity extends BaseTimeEntity {
+public class CounselingManageEntity extends BaseTimeEntity {
 
     @Id
     private String idx;
@@ -57,7 +57,7 @@ public class ConsultingManageEntity extends BaseTimeEntity {
     }
 
     @Builder
-    public ConsultingManageEntity(LocalDate startDate,
+    public CounselingManageEntity(LocalDate startDate,
                                   LocalDate endDate,
                                   String semester,
                                   String adminNum,
