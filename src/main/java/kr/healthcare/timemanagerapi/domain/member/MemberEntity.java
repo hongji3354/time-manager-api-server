@@ -19,7 +19,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     @Id
     @Column(length = 8)
-    private long stdNum;
+    private String stdNum;
 
     @Column(length = 45, unique = true, nullable = false)
     private String email;
@@ -66,7 +66,7 @@ public class MemberEntity extends BaseTimeEntity {
     }
 
     @Builder
-    public MemberEntity(long stdNum,
+    public MemberEntity(String stdNum,
                         String email,
                         String password,
                         String name,

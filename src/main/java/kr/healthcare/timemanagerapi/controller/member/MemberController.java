@@ -43,7 +43,7 @@ public class MemberController {
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
         }
 
-        if(memberRepositroy.existsByStdNum(Integer.parseInt(studentNumberRequest.getStudentNumber()))){
+        if(memberRepositroy.existsByStdNum(studentNumberRequest.getStudentNumber())){
             response.setResultCode(ResponseFailMessage.FAIL.toString());
             response.setResultMessage(ResponseFailMessage.H000001.getMessage());
             return new ResponseEntity<MemberDTO.StudentNumberResponse>(response, HttpStatus.OK);
@@ -86,12 +86,12 @@ public class MemberController {
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
         }else{
-            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
+            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(studentSingUpRequest.getStudentNumber());
             boolean memberEmailOverlabCheck = memberRepositroy.existsByEmail(studentSingUpRequest.getEmail());
 
             if(!memberSingPossibleWhether && !memberEmailOverlabCheck){
                 MemberEntity memberEntity = MemberEntity.builder()
-                        .stdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()))
+                        .stdNum(studentSingUpRequest.getStudentNumber())
                         .name(studentSingUpRequest.getName())
                         .email(studentSingUpRequest.getEmail())
                         .password(passwordEncoder.encode(studentSingUpRequest.getPassword()))
@@ -146,12 +146,12 @@ public class MemberController {
             response.setResultMessage(bindingResult.getAllErrors().get(0).getDefaultMessage());
             return new ResponseEntity<MemberDTO.StudentSignUpResponse>(response, HttpStatus.OK);
         }else{
-            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()));
+            boolean memberSingPossibleWhether = memberRepositroy.existsByStdNum(studentSingUpRequest.getStudentNumber());
             boolean memberEmailOverlabCheck = memberRepositroy.existsByEmail(studentSingUpRequest.getEmail());
 
             if(!memberSingPossibleWhether && !memberEmailOverlabCheck){
                 MemberEntity memberEntity = MemberEntity.builder()
-                        .stdNum(Integer.parseInt(studentSingUpRequest.getStudentNumber()))
+                        .stdNum(studentSingUpRequest.getStudentNumber())
                         .name(studentSingUpRequest.getName())
                         .email(studentSingUpRequest.getEmail())
                         .password(passwordEncoder.encode(studentSingUpRequest.getPassword()))

@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import javax.validation.Valid;
 import java.security.PublicKey;
 
-public interface MemberRepositroy extends JpaRepository<MemberEntity, Long> {
+public interface MemberRepositroy extends JpaRepository<MemberEntity, String> {
 
-    public Boolean existsByStdNum(long studentNumber);
+    public Boolean existsByStdNum(String studentNumber);
     public Boolean existsByEmail(String email);
     public MemberEntity findByEmail(String email);
     public Boolean existsByToken(String token);
