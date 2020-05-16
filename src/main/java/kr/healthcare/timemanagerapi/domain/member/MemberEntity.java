@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "MEMBER_TBL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-//ConsultingManageEntity에서 MemberEntity의 Email을 참조하는데 PK가 아닌 컬럼을 참조해서 그런지 오류가 발생함. 해결방법은 Serializable 상속받는 것
-// https://www.inflearn.com/questions/16570 참고함!
-public class MemberEntity extends BaseTimeEntity implements Serializable {
+
+public class MemberEntity extends BaseTimeEntity {
 
     @Id
     @Column(length = 8)
@@ -51,10 +50,19 @@ public class MemberEntity extends BaseTimeEntity implements Serializable {
     @Column(length = 500)
     private String token;
 
+    @Column(length = 1, columnDefinition = "varchar(1) default 'N'")
+    private String acceptYn;
+
+    private LocalDateTime acceptTime;
+
+    @Column(length = 45)
+    private String accpetMember;
+
     @PrePersist
     public void defaultValueCheck(){
         this.auth = (this.auth == null) ? this.auth = "U" : this.auth;
         this.deleteYn = (this.deleteYn == null) ? this.deleteYn = "N" : this.deleteYn;
+        this.acceptYn = (this.acceptYn == null) ? this.acceptYn = "N" : this.acceptYn;
     }
 
     @Builder
