@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/admin/counseling/register
+# Postman에서는 Header에 Authentication를 넣어도 별문제가 없는데 IntelliJ에서는 RFC 7230을 준수하지 않고 무시됬다고함... 뭐지?
+Authentication : eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ1bmlzdF9oZWFsdGhjYXJlIiwiaWF0IjoxNTg5NjQ1NzU3fQ.w_PF7VgPd-0oN5MLa328KqGH5jr2DGCo_FyrHTjmSI2Rkuhz5apEIU3KQtXa5WDZimkLsXq0PEots0QmF7sudA
+Content-Type: application/json
+
+{
+  "semester" : "202002",
+  "startDate" : "2020-05-17",
+  "endDate" : "2020-06-17"
+}
+
