@@ -12,15 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MemberController {
 
     @NonNull
@@ -32,7 +30,7 @@ public class MemberController {
     @NonNull
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/api/accounts/student-number")
+    @GetMapping("/accounts/student-number")
     public ResponseEntity studentNumberOverlapCheck(@Valid MemberDTO.StudentNumberRequest studentNumberRequest,
                                                                                      BindingResult bindingResult){
         MemberDTO.StudentNumberResponse response = new MemberDTO.StudentNumberResponse();
@@ -53,7 +51,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/api/accounts/student-email")
+    @GetMapping("/accounts/student-email")
     public ResponseEntity studentEmaliOverlapCheck(@Valid MemberDTO.StudentEmailRequest studentEmailRequest,
                                                    BindingResult bindingResult){
 
@@ -75,7 +73,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/api/accounts")
+    @PostMapping("/accounts")
     public ResponseEntity studentSignUp(@Valid @RequestBody MemberDTO.StudentSingUpRequest studentSingUpRequest,
                                         BindingResult bindingResult){
 
@@ -111,7 +109,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity studentLogin(@Valid @RequestBody MemberDTO.StudentLoginRequest studentLoginRequest,
                                        BindingResult bindingResult){
 
@@ -135,7 +133,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/api/accounts/admin")
+    @PostMapping("/accounts/admin")
     public ResponseEntity adminSignUp(@Valid @RequestBody MemberDTO.StudentSingUpRequest studentSingUpRequest,
                                         BindingResult bindingResult){
 
