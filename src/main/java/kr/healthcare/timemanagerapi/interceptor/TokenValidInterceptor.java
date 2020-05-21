@@ -5,6 +5,7 @@ import kr.healthcare.timemanagerapi.constant.Authority;
 import kr.healthcare.timemanagerapi.domain.member.MemberEntity;
 import kr.healthcare.timemanagerapi.domain.member.MemberRepositroy;
 import kr.healthcare.timemanagerapi.exception.TokenEmptyException;
+import kr.healthcare.timemanagerapi.exception.UnApprovalException;
 import kr.healthcare.timemanagerapi.exception.UnauthorizedException;
 import kr.healthcare.timemanagerapi.util.JwtTokenUtil;
 import lombok.AllArgsConstructor;
@@ -48,8 +49,13 @@ public class TokenValidInterceptor extends HandlerInterceptorAdapter {
                 }else{
                     return true;
                 }
+            }else{
+                if("N".equals(memberEntity.getAuth())){
+                    throw new UnApprovalException("회원가입 승인이 되지 않은 회원");
+                }else{
+                    return true;
+                }
             }
-            return true;
         }else{
             throw new MalformedJwtException("Token은 서버에서 발급한게 맞지만 일치하는 Token이 존재하지 않는다!");
         }
