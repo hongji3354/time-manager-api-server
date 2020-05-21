@@ -3,6 +3,7 @@ package kr.healthcare.timemanagerapi.advice;
 import io.jsonwebtoken.MalformedJwtException;
 import kr.healthcare.timemanagerapi.constant.ResponseFailMessage;
 import kr.healthcare.timemanagerapi.exception.TokenEmptyException;
+import kr.healthcare.timemanagerapi.exception.UnApprovalException;
 import kr.healthcare.timemanagerapi.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,4 +40,11 @@ public class ExceptionAdvice {
         return new ResponseEntity<Map<String,String>>(message, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(UnApprovalException.class)
+    public ResponseEntity unApprovalException(){
+        Map<String, String> message = new HashMap<>();
+        message.put("resultCode", ResponseFailMessage.FAIL.toString());
+        message.put("resultMessage",ResponseFailMessage.H000010.getMessage());
+        return new ResponseEntity<Map<String,String>>(message, HttpStatus.UNAUTHORIZED);
+    }
 }
